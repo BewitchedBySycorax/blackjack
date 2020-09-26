@@ -13,11 +13,11 @@ const rl = readline.createInterface({
 })
 
 // Log file creation and game results recording
-let blackJackLogFile = argv._[0]
+let logFile = argv._[0]
 
 const writeDownResults = data =>
   new Promise(async (resolve, reject) => {
-    fs.appendFile('./blackJackLogFile.txt', data, 'utf8', err => {
+    fs.appendFile('./logFile.txt', data, 'utf8', err => {
       try {
         if (err) {
           console.error(err)
@@ -34,17 +34,23 @@ const writeDownResults = data =>
     })
   })
 
-if (!blackJackLogFile) blackJackLogFile = './blackJackLogFile.txt'
+if (!logFile) logFile = './logFile.txt'
 
 // Game logic implementation
 const game = async () => {
 
-  const dealCards = async hand => {
+  const chooseRandomCard = hand => {
     const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
     const randomInt = getRandomInt(0, cardDeck.length - 1)
     const randomCard = cardDeck[randomInt]
 
     cardDeck.splice(randomInt, 1)
+
+    return randomCard
+  }
+
+  const dealCards = async hand => {
+    const randomCard = chooseRandomCard(hand)
     hand.push(randomCard)
   }
 
@@ -83,7 +89,9 @@ const game = async () => {
       }
     })
 
-  const getStatus = (player, dealer) => `Dealer: ${dealer.join(', ')}.\nPlayer: ${player.join(', ')}.`
+  const getStatus = (player, dealer) => {
+    `Player: ${player.join(', ')}.\nDealer: ${dealer[0].toString()}.`
+  }
 
   const askQuestion = (player, dealer) =>
     new Promise(reject => {
@@ -117,6 +125,10 @@ const game = async () => {
   const checkSum = (sumPlayer, sumDealer, response) =>
     new Promise (async (resolve, reject) => {
       try {
+
+        // ! few decks!
+        // ! > 21 - Lose
+        // 
         if (sumPlayer === 21 && response === '1') {
           resolve(console.log(greenBright(bold(`Incredible! You won!\n ${getStatus(player, dealer)}`))))
           await writeDownResults('Victory\n')
@@ -134,7 +146,7 @@ const game = async () => {
           process.exit(0)
 
         } else if (sumDealer > 21) {
-          resolve(console.log(greenBright(bold(`Dealer got too much! You won!\n ${getStatus(player, dealer)}`))))
+          resolve(console.log(greenBright(bold(`Dealer got too much! You won!\n${getStatus(player, dealer)}`))))
           await writeDownResults('Victory\n')
           process.exit(0)
 
@@ -171,6 +183,7 @@ const game = async () => {
   const player = []
 
   // Deal of cards to participants at the beginning of the game
+  await dealCards(dealer)
   await dealCards(dealer)
   await dealCards(player)
   await dealCards(player)
