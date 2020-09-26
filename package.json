@@ -1,0 +1,24 @@
+{
+  "name": "black-jack-game",
+  "version": "1.0.0",
+  "description": "BlackJack console game written in Node.js",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BewitchedBySycorax/blackjack"
+  },
+  "author": "Aleksei Voitovskii <al.voitovskii@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BewitchedBySycorax/blackjack/issues"
+  },
+  "homepage": "https://github.com/BewitchedBySycorax/blackjack#readme",
+  "dependencies": {
+    "chalk-animation": "^1.6.0",
+    "cli-color": "^2.0.0",
+    "minimist": "^1.2.5"
+  }
+}
