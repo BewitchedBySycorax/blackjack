@@ -17,8 +17,6 @@
   },
   "homepage": "https://github.com/BewitchedBySycorax/blackjack#readme",
   "dependencies": {
-    "chalk-animation": "^1.6.0",
-    "cli-color": "^2.0.0",
     "minimist": "^1.2.5"
   },
   "devDependencies": {
