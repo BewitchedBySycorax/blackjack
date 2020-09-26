@@ -1,2 +1,2 @@
 # blackjack
-BlackJack game written in Node.js
+Promise and async/await exercises with BlackJack game written in Node.js
